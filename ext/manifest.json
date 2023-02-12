@@ -2,5 +2,6 @@
     "manifest_version": 3,
     "name": "Text Summarizer",
     "version": "1.0",
-    "description": "An extension that summarizes text for each page the user visits."
+    "description": "An extension that summarizes text for each page the user visits.",
+    "permissions": ["http://127.0.0.1:8000/"]
 }
