@@ -3,5 +3,12 @@
     "name": "Text Summarizer",
     "version": "1.0",
     "description": "An extension that summarizes text for each page the user visits.",
-    "permissions": ["http://127.0.0.1:8000/"]
+    "permissions": ["activeTab", "scripting", "tabs"],
+    "host_permissions": ["http://127.0.0.1:8000/"],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    }
 }

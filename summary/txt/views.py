@@ -48,51 +48,46 @@ def get_summary(request):
     return JsonResponse(data)
 
 def summarize(text):
-    # Tokenizing the text
+
     print('SUMMARIZE CALLED WITH TEXT: ', text)
     stopWords = set(stopwords.words("english"))
     words = word_tokenize(text)
     
-    # Creating a frequency table to keep the 
-    # score of each word
-    
-    freqTable = dict()
+    word_freq_table = dict()
     for word in words:
         word = word.lower()
         if word in stopWords:
             continue
-        if word in freqTable:
-            freqTable[word] += 1
+        if word in word_freq_table:
+            word_freq_table[word] += 1
         else:
-            freqTable[word] = 1
+            word_freq_table[word] = 1
     
-    # Creating a dictionary to keep the score
-    # of each sentence
     sentences = sent_tokenize(text)
+    numSentences = 0
     sentenceValue = dict()
     
     for sentence in sentences:
-        for word, freq in freqTable.items():
+        numSentences += 1
+        for word in word_freq_table:
             if word in sentence.lower():
                 if sentence in sentenceValue:
-                    sentenceValue[sentence] += freq
+                    sentenceValue[sentence] += word_freq_table[word]
                 else:
-                    sentenceValue[sentence] = freq
+                    sentenceValue[sentence] = word_freq_table[word]
     
-    
-    
-    sumValues = 0
-    for sentence in sentenceValue:
-        sumValues += sentenceValue[sentence]
+    sentence_value_sum = 0
+    for sentence, value in sentenceValue.items():
+        sentence_value_sum += value
     
     # Average value of a sentence from the original text
     
-    average = int(sumValues / len(sentenceValue))
+    avg_sentence_value = int(sentence_value_sum / numSentences)
     
     # Storing sentences into our summary.
     summary = ''
     for sentence in sentences:
-        if (sentence in sentenceValue) and (sentenceValue[sentence] > (1.2 * average)):
+        if sentence in sentenceValue and sentenceValue[sentence] > (1.2 * avg_sentence_value):
             summary += " " + sentence
     print(summary)
     return summary

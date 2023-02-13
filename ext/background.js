@@ -1,10 +1,12 @@
 
-var serverhost = 'http://127.0.0.1:8000';
+var serverhost = 'http://127.0.0.1:8000/';
 
 	chrome.runtime.onMessage.addListener(
 		function(request, sender, sendResponse) {
+
+			console.log("message received");
 			  
-			var url = serverhost + 'get_summary/?text='+ encodeURIComponent(request.topic) ;
+			var url = serverhost + 'get_summary/?text='+ encodeURIComponent(request.text);
 			
 			console.log(url);
 			
